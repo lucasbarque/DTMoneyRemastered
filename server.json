@@ -15,6 +15,22 @@
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2022-01-02T00:00:00"
+    },
+    {
+      "id": 3,
+      "description": "Banana",
+      "type": "outcome",
+      "category": "Alimentação",
+      "price": 12,
+      "createdAt": "2022-02-02T00:00:00"
+    },
+    {
+      "id": 4,
+      "description": "Freela Fotografia",
+      "type": "income",
+      "category": "Freelance",
+      "price": 2000,
+      "createdAt": "2022-01-21T00:00:00"
     }
   ]
 }
