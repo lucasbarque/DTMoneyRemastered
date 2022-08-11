@@ -31,6 +31,22 @@
       "category": "Freelance",
       "price": 2000,
       "createdAt": "2022-01-21T00:00:00"
+    },
+    {
+      "description": "Desenvolvimento de app",
+      "price": 10000,
+      "category": "Venda",
+      "type": "income",
+      "createdAt": "2022-08-11T00:28:43.530Z",
+      "id": 5
+    },
+    {
+      "description": "Lanche do picadinho",
+      "type": "outcome",
+      "category": "Alimentação",
+      "price": 23,
+      "createdAt": "2022-08-11T00:47:50.823Z",
+      "id": 6
     }
   ]
 }

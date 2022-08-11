@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
+import { api } from '../lib/axios';
 
 interface Transaction {
   id: number;
@@ -9,31 +10,60 @@ interface Transaction {
   createdAt: string;
 }
 
+type CreateTransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+
 interface TransactionContextType {
   transactions: Transaction[];
+  fetchTransactions: (query?: string) => Promise<void>;
+  createTransaction: (transaction: CreateTransactionInput) => Promise<void>;
 }
-
-export const TransactionsContext = createContext({} as TransactionContextType);
 
 interface TransactionsProviderProps {
   children: React.ReactNode;
 }
 
+export const TransactionsContext = createContext({} as TransactionContextType);
+
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  useEffect(() => {
-    async function loadTransactions() {
-      const response = await fetch('http://localhost:3333/transactions');
-      const data = await response.json();
+  async function fetchTransactions(query?: string) {
+    const { data } = await api.get('/transactions', {
+      params: {
+        _sort: 'createdAt',
+        _order: 'desc',
+        q: query,
+      },
+    });
 
-      setTransactions(data);
-    }
-    loadTransactions();
+    setTransactions(data);
+  }
+
+  async function createTransaction({
+    description,
+    type,
+    category,
+    price,
+  }: CreateTransactionInput) {
+    const { data } = await api.post('/transactions', {
+      description,
+      type,
+      category,
+      price,
+      createdAt: new Date(),
+    });
+
+    setTransactions((state) => [data, ...state]);
+  }
+
+  useEffect(() => {
+    fetchTransactions();
   }, []);
 
   return (
-    <TransactionsContext.Provider value={{ transactions }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, fetchTransactions }}
+    >
       {children}
     </TransactionsContext.Provider>
   );
